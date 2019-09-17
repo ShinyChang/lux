@@ -12,7 +12,7 @@ const IndexPage = () => {
   const E = useRef(null)
   const UF = useRef(null)
   const MF = useRef(null)
-  const [lm, setLm] = useState(0)
+  const [lm, setLm] = useState(987)
   const cb = useCallback(() => {
     setLm(
       LM({
@@ -101,6 +101,22 @@ const IndexPage = () => {
       </p>
       <p>
         <strong>建議流明：{lm} lm</strong>
+      </p>
+      <hr />
+      <p>
+        <h4>參考資料</h4>
+        <ul>
+          <li>
+            <a href="https://www.courcasa.com/p/bJdr">
+              客廳或房間要幾盞燈才夠亮？來看CNS怎麼說
+            </a>
+          </li>
+          <li>
+            <a href="http://power.lifebook.com.tw/Videos/tabid/3038/ProdID/2827/Default.aspx">
+              照明計算 : 照明設計 : 意象科技 Power Designer 配電系統設計軟體
+            </a>
+          </li>
+        </ul>
       </p>
     </Layout>
   )
