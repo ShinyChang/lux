@@ -1,21 +1,109 @@
-import React from "react"
-import { Link } from "gatsby"
+import React, { useRef, useCallback, useState } from "react"
 
 import Layout from "../components/layout"
-import Image from "../components/image"
 import SEO from "../components/seo"
 
-const IndexPage = () => (
-  <Layout>
-    <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
-    </div>
-    <Link to="/page-2/">Go to page 2</Link>
-  </Layout>
-)
+const LM = ({ E, A, N, UF, MF }) => Math.round((E * A) / (UF * MF * N))
+const A = (l, w) => l * w
+
+const IndexPage = () => {
+  const w = useRef(null)
+  const l = useRef(null)
+  const E = useRef(null)
+  const UF = useRef(null)
+  const MF = useRef(null)
+  const [lm, setLm] = useState(0)
+  const cb = useCallback(() => {
+    setLm(
+      LM({
+        E: Number(E.current.value),
+        A: A(Number(l.current.value), Number(w.current.value)),
+        N: 1,
+        UF: Number(UF.current.value),
+        MF: Number(MF.current.value),
+      })
+    )
+  }, [])
+
+  return (
+    <Layout>
+      <SEO title="室內空間光通量（流明）計算" />
+      <p>
+        <label>
+          空間長度（公尺）：
+          <input
+            type="number"
+            min="0"
+            step="0.1"
+            defaultValue="3"
+            ref={l}
+            onChange={cb}
+          />
+        </label>
+      </p>
+      <p>
+        <label>
+          空間寬度（公尺）：
+          <input
+            type="number"
+            min="0"
+            step="0.1"
+            defaultValue="5"
+            ref={w}
+            onChange={cb}
+          />
+        </label>
+      </p>
+      <p>
+        <label>
+          用途：
+          <select ref={E} onChange={cb}>
+            <option value="20">儲藏室</option>
+            <option value="30">走廊、樓梯</option>
+            <option value="50" selected>
+              通用
+            </option>
+            <option value="150">娛樂</option>
+            <option value="200">餐桌、料理</option>
+            <option value="300">化妝</option>
+            <option value="500">閱讀、寫作</option>
+            <option value="750">手工藝、縫紉</option>
+          </select>
+        </label>
+      </p>
+      <p>
+        <label>
+          照明率（％）：
+          <input
+            ref={UF}
+            type="number"
+            step="0.01"
+            defaultValue="0.76"
+            min="0"
+            max="1"
+            onChange={cb}
+          />
+        </label>
+      </p>
+      <p>
+        <label>
+          維修係數（％）：
+          <input
+            ref={MF}
+            type="number"
+            step="0.01"
+            defaultValue="1"
+            min="0"
+            max="1"
+            onChange={cb}
+          />
+        </label>
+      </p>
+      <p>
+        <strong>建議流明：{lm} lm</strong>
+      </p>
+    </Layout>
+  )
+}
 
 export default IndexPage
